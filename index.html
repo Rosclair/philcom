@@ -53,6 +53,24 @@
             .faq-chev.rot{transform:rotate(180deg)}
             .faq-item{transition:box-shadow .3s}
             .faq-item:hover{box-shadow:0 8px 32px rgba(59,92,184,.1)}
+            /* MAINTENANCE OFFERS */
+            .offer-card{background:#fff;border:1px solid rgba(59,92,184,.12);border-radius:1.25rem;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column}
+            .offer-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(59,92,184,.15);border-color:rgba(59,92,184,.3)}
+            .offer-card.featured{border:2px solid var(--blue);position:relative;z-index:1;transform:scale(1.02)}
+            .offer-card.featured:hover{transform:scale(1.02) translateY(-8px)}
+            .offer-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(59,92,184,.1);border:1px solid rgba(59,92,184,.25);border-radius:100px;padding:6px 12px;font-size:.65rem;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);font-weight:700;width:fit-content;margin-bottom:.75rem}
+            .offer-badge-gold{background:rgba(217,119,6,.1);border-color:rgba(217,119,6,.3);color:var(--gold)}
+            .offer-header{padding:1.5rem;text-align:center;border-bottom:1px solid rgba(59,92,184,.08)}
+            .offer-title{font-size:1.25rem;font-weight:700;color:#111827;margin-bottom:.25rem;font-family:var(--font-title)}
+            .offer-feature{padding:.75rem 1.25rem;border-bottom:1px solid rgba(59,92,184,.06);font-size:.875rem}
+            .offer-feature-label{color:#64748B;font-weight:600;margin-bottom:.25rem;display:block;font-size:.8rem;text-transform:uppercase;letter-spacing:.03em}
+            .offer-feature-value{color:#1e293b;font-weight:500}
+            .offer-cta{margin-top:auto;padding:1.25rem;text-align:center}
+            .offer-cta .btn-wa{width:100%;justify-content:center}
+            .maintenance-benefits{background:rgba(59,92,184,.04);border:1px solid rgba(59,92,184,.12);border-radius:1rem;padding:1.5rem;margin-top:2rem}
+            .maintenance-benefits ul{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem}
+            .maintenance-benefits li{display:flex;align-items:flex-start;gap:.75rem;color:#475569;font-size:.9rem}
+            .maintenance-benefits li::before{content:'\2713';display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;flex-shrink:0;font-weight:700;font-size:.75rem}
             .form-input{background:rgba(59,92,184,.04);border:1px solid rgba(59,92,184,.18);transition:all .3s;color:#1e293b;width:100%;border-radius:.75rem;padding:.75rem 1rem;font-size:.875rem;font-family:'DM Sans',sans-serif}
             .form-input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(59,92,184,.1)}
             .form-input option{background:#fff}
@@ -69,17 +87,85 @@
             @keyframes checkDraw{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}
             .success-icon{animation:successScale .6s cubic-bezier(.34,1.56,.64,1) both}
             .success-check{stroke-dasharray:100;stroke-dashoffset:100;animation:checkDraw .6s .3s ease forwards}
-            /* HERO */
-            .hero-carousel{position:relative;width:100%;height:100vh;min-height:520px;overflow:hidden}
-            @media(max-width:639px){.hero-carousel{max-height:670px;margin-top:70px}}
-            .hc-slide{position:absolute;inset:0;opacity:0;transition:opacity .9s cubic-bezier(.4,0,.2,1);z-index:0}
-            .hc-slide.active{opacity:1;z-index:1}
-            .hc-slide picture,.hc-slide img{width:100%;height:100%;object-fit:cover;display:block}
-            .hc-dots{position:absolute;bottom:1.75rem;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:.5rem;align-items:center}
-            .hc-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);border:none;cursor:pointer;transition:all .35s;padding:0}
-            .hc-dot.active{width:28px;border-radius:4px;background:#fff}
-            .hc-progress{position:absolute;bottom:0;left:0;height:3px;background:var(--blue);z-index:5;transition:width .1s linear}
-            @keyframes heroFadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+
+            /* ═══ HERO CAROUSEL — CSS REÉCRIT ═══ */
+            .hero-carousel{
+                position:relative;
+                width:100%;
+                height:100vh;
+                min-height:520px;
+                overflow:hidden;
+            }
+            @media(max-width:639px){
+                .hero-carousel{max-height:670px;margin-top:70px}
+            }
+            /* Chaque slide : caché par défaut via opacity + pointer-events */
+            .hc-slide{
+                position:absolute;
+                inset:0;
+                opacity:0;
+                pointer-events:none;
+                transition:opacity .9s cubic-bezier(.4,0,.2,1);
+                z-index:0;
+                will-change:opacity;
+            }
+            .hc-slide.active{
+                opacity:1;
+                pointer-events:auto;
+                z-index:1;
+            }
+            .hc-slide picture,
+            .hc-slide img{
+                width:100%;
+                height:100%;
+                object-fit:cover;
+                display:block;
+            }
+            /* Dots */
+            .hc-dots{
+                position:absolute;
+                bottom:1.75rem;
+                left:50%;
+                transform:translateX(-50%);
+                z-index:4;
+                display:flex;
+                gap:.5rem;
+                align-items:center;
+            }
+            .hc-dot{
+                width:8px;
+                height:8px;
+                border-radius:50%;
+                background:rgba(255,255,255,.4);
+                border:none;
+                cursor:pointer;
+                transition:all .35s;
+                padding:0;
+            }
+            .hc-dot.active{
+                width:28px;
+                border-radius:4px;
+                background:#fff;
+            }
+            /* Barre de progression */
+            .hc-progress{
+                position:absolute;
+                bottom:0;
+                left:0;
+                height:3px;
+                background:var(--blue);
+                z-index:5;
+                width:0%;
+            }
+            /* Animation CSS de la progression — déclenchée via classe JS */
+            .hc-progress.running{
+                animation:hcProgressAnim var(--hc-duration, 5500ms) linear forwards;
+            }
+            @keyframes hcProgressAnim{
+                from{width:0%}
+                to{width:100%}
+            }
+
             /* PRODUCT */
             .product-card{background:#fff;border:1px solid rgba(59,92,184,.12);border-radius:1rem;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1)}
             .product-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(59,92,184,.14);border-color:rgba(59,92,184,.3)}
@@ -103,16 +189,17 @@
             .leader-card{background:#fff;border:1px solid rgba(59,92,184,.15);border-radius:1.25rem;overflow:hidden;transition:all .35s;text-align:center}
             .leader-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(59,92,184,.14)}
             /* LOGO CAROUSEL */
-            .logo-carousel-track{display:flex;align-items:center;animation:logoScroll 32s linear infinite}
+            .logo-carousel-track{display:flex;align-items:center;animation:logoScroll 10s linear infinite}
             .logo-carousel-track:hover{animation-play-state:paused}
             @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
             .logo-carousel-wrap{overflow:hidden;position:relative}
             .logo-carousel-wrap::before,.logo-carousel-wrap::after{content:'';position:absolute;top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
             .logo-carousel-wrap::before{left:0;background:linear-gradient(90deg,#FEFCF3,transparent)}
             .logo-carousel-wrap::after{right:0;background:linear-gradient(-90deg,#FEFCF3,transparent)}
-            .logo-item{flex-shrink:0;width:140px;height:80px;display:flex;align-items:center;justify-content:center;margin:0 .75rem;background:#fff;border:1px solid rgba(59,92,184,.1);border-radius:.75rem;padding:.75rem;transition:all .3s}
+            .logo-item{flex-shrink:0;width:140px;min-height:80px;display:flex;align-items:center;justify-content:center;margin:0 .75rem;background:#fff;border:1px solid rgba(59,92,184,.1);border-radius:.75rem;padding:.75rem;transition:all .3s;overflow:hidden}
             .logo-item:hover{border-color:rgba(59,92,184,.3);box-shadow:0 4px 16px rgba(59,92,184,.1)}
-            .logo-item-text{font-family:var(--font-title);font-weight:700;font-size:.75rem;color:#475569;text-align:center;line-height:1.3}
+            .logo-item-text{font-family:var(--font-title);font-weight:700;font-size:.75rem;color:#475569;text-align:center;line-height:1.3;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+            .logo-item img{width:100%;height:100%;object-fit:contain;max-width:100%;max-height:100%}
             /* LOGO CHANGE */
             .logo-change-zone{border:2px dashed rgba(59,92,184,.3);border-radius:1.25rem;background:rgba(59,92,184,.03);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem;text-align:center;min-height:200px;cursor:pointer;transition:all .3s}
             .logo-change-zone:hover{border-color:var(--blue);background:rgba(59,92,184,.07)}
@@ -143,6 +230,7 @@
             <a href="#apropos" class="nav-link" data-section="apropos">À propos</a>
             <a href="#processus" class="nav-link" data-section="processus">Processus</a>
             <a href="#partenaires" class="nav-link" data-section="partenaires">Partenaires</a>
+            <a href="#maintenance" class="nav-link" data-section="maintenance">Maintenance</a>
             <a href="#faq" class="nav-link" data-section="faq">FAQ</a>
             <a href="#contact" class="nav-link" data-section="contact">Contact</a>
             </nav>
@@ -165,6 +253,7 @@
             <a href="#apropos" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">À propos</a>
             <a href="#processus" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">Processus</a>
             <a href="#partenaires" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">Partenaires</a>
+            <a href="#maintenance" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">Maintenance</a>
             <a href="#faq" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">FAQ</a>
             <a href="#contact" onclick="closeMenu()" class="text-slate-700 font-medium hover:text-blue-700" style="text-decoration:none">Contact</a>
             <div class="sep"></div>
@@ -192,7 +281,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div class="flex flex-col items-center gap-2"><div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.25)"><svg width="20" height="20" fill="none" stroke="#D97706" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><span class="text-sm font-semibold text-slate-900">Expertise certifiée</span><span class="text-xs text-slate-500">21+ ans</span></div>
             <div class="flex flex-col items-center gap-2"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center"><svg width="20" height="20" fill="none" stroke="#3B5CB8" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><span class="text-sm font-semibold text-slate-900">Réactivité rapide</span><span class="text-xs text-slate-500">24/48h</span></div>
-            <div class="flex flex-col items-center gap-2"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center"><svg width="20" height="20" fill="none" stroke="#3B5CB8" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="text-sm font-semibold text-slate-900">Suivi client à vie</span><span class="text-xs text-slate-500">Maintenance incluse</span></div>
+            <div class="flex flex-col items-center gap-2"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center"><svg width="20" height="20" fill="none" stroke="#3B5CB8" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><span class="text-sm font-semibold text-slate-900">Contrat de maintenance adapté</span><span class="text-xs text-slate-500">Maintenance incluse</span></div>
             <div class="flex flex-col items-center gap-2"><div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center"><svg width="20" height="20" fill="none" stroke="#3B5CB8" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><span class="text-sm font-semibold text-slate-900">Douala</span><span class="text-xs text-slate-500">Cameroun</span></div>
         </div>
         </section>
@@ -244,9 +333,9 @@
                 <div class="relative"><div class="about-timeline-dot absolute -left-9 bg-blue-500/15" style="border:1px solid rgba(59,92,184,.3);color:var(--blue)">25</div><div class="glass rounded-xl p-4 border-glow"><div class="font-bold text-slate-900 text-sm mb-1">Nouveau personnel & passage en SARL</div><div class="text-slate-500 text-xs">2025 - Renforcement des équipes, structuration en SARL et montée en puissance.</div></div></div>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mt-8">
-                <div class="about-stat"><span class="text-3xl font-bold mb-1" style="color:var(--gold);font-family:var(--font-title)">21+</span><span class="text-xs text-slate-500">Ans d'expertise</span></div>
-                <div class="about-stat"><span class="text-3xl font-bold mb-1" style="color:var(--blue);font-family:var(--font-title)">500+</span><span class="text-xs text-slate-500">Clients satisfaits</span></div>
-                <div class="about-stat"><span class="text-3xl font-bold mb-1" style="color:var(--blue);font-family:var(--font-title)">800+</span><span class="text-xs text-slate-500">Projets réalisés</span></div>
+                <div class="about-stat"><span id="c1" class="text-3xl font-bold mb-1" style="color:var(--gold);font-family:var(--font-title)">21+</span><span class="text-xs text-slate-500">Ans d'expertise</span></div>
+                <div class="about-stat"><span id="c2" class="text-3xl font-bold mb-1" style="color:var(--blue);font-family:var(--font-title)">500+</span><span class="text-xs text-slate-500">Clients satisfaits</span></div>
+                <div class="about-stat"><span id="c3" class="text-3xl font-bold mb-1" style="color:var(--blue);font-family:var(--font-title)">800+</span><span class="text-xs text-slate-500">Projets réalisés</span></div>
                 </div>
             </div>
             </div>
@@ -270,12 +359,8 @@
             <div class="mb-16 reveal">
             <h3 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-8 text-center" style="font-family:var(--font-title)">Nos <span class="gradient-text">dirigeants</span></h3>
             <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
-                <!-- PDG -->
                 <div class="leader-card">
                 <div style="width:100%;height:260px;overflow:hidden;background:rgba(59,92,184,.06);display:flex;align-items:center;justify-content:center;position:relative">
-                    <!--
-                    PHOTO PDG : Remplacez ce bloc commenté par la vraie image :
-                    -->
                     <img src="build/images/PDG.jpeg" alt="M. Ndjewa Mandjole Philippe" style="width:100%;height:100%;object-fit:cover"/>
                 </div>
                 <div class="p-5">
@@ -284,12 +369,8 @@
                     <p class="text-slate-500 text-xs leading-relaxed">Fondateur de PHILCOM en 2003. Visionnaire et bâtisseur, il a posé les fondations d'une entreprise technologique de référence au Cameroun, avec une conviction : la technologie doit être accessible à tous.</p>
                 </div>
                 </div>
-                <!-- DG -->
                 <div class="leader-card">
                 <div style="width:100%;height:260px;overflow:hidden;background:rgba(59,92,184,.06);display:flex;align-items:center;justify-content:center;position:relative">
-                    <!--
-                        PHOTO DG : Remplacez ce bloc commenté par la vraie image :
-                    -->
                     <img src="build/images/DG.jpeg" alt="M. Ndjewa Mandjole Abed" style="width:100%;height:100%;object-fit:cover"/>
                 </div>
                 <div class="p-5">
@@ -310,16 +391,8 @@
             </div>
             <div class="max-w-sm mx-auto">
                 <div class="logo-change-zone">
-                <!--
-                    NOUVEAU LOGO : Remplacez le contenu ci-dessous par votre image :
-                    -->
                 <img src="build/images/new-logo.jpeg" alt="Nouveau logo PHILCOM 2024" style="max-height:320px;object-fit:contain"/>
                 <p style="font-size:.75rem;color:#94a3b8;margin-top:.75rem">Nouveau logo PHILCOM - Identité 2024</p>
-                <!--img src="build/images/logo.webp" alt="Logo PHILCOM 2024" style="max-height:100px;object-fit:contain;margin-bottom:.75rem" onerror="this.style.display='none'"/>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:.4;color:var(--blue)" id="logo-fallback">
-                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                    <span style="font-size:.75rem;text-align:center">Nouveau logo PHILCOM 2024<br/><em>Remplacer par l'image du logo</em></span>
-                </div-->
                 </div>
             </div>
             </div>
@@ -363,12 +436,12 @@
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/brussels.jpeg" alt="Brussels" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/clinique.jpeg" alt="Clinique" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/dal.jpeg" alt="Kadji & Associés" style="width:100%;height:100%;object-fit:cover"/></div></div>
-                <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/douane.jpeg" alt="ONG Cam Dév." style="width:100%;height:100%;object-fit:cover"/></div></div>
+                <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/douane.jpeg" alt="ONG Cam Dév." style="width:100%;height:auto;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/flexi.jpeg" alt="SABC Douala" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/f.jpeg" alt="Clinique Générale" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/jon.jpeg" alt="Fouda & Fils SARL" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/la_falaise.jpeg" alt="Bâtisseurs du Sud" style="width:100%;height:100%;object-fit:cover"/></div></div>
-                <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/la_falaise.jpeg" alt="École Internationale" style="width:100%;height:100%;object-fit:cover"/></div></div>
+                <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/tchad.jpeg" alt="École Internationale" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/mbm.jpeg" alt="Résidence Bastos" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/nsia.jpeg" alt="Transit Express" style="width:100%;height:100%;object-fit:cover"/></div></div>
                 <div class="logo-item"><div class="logo-item-text"><img src="build/images/partenaires/socamsea.jpeg" alt="GreenTech Africa" style="width:100%;height:100%;object-fit:cover"/></div></div>
@@ -392,6 +465,88 @@
             </div>
             </div>
             <p class="text-center text-slate-400 text-xs mt-6">et bien d'autres entreprises à travers le Cameroun…</p>
+        </div>
+        </section>
+
+        <!-- MAINTENANCE CONTRACTS -->
+        <section id="maintenance" class="py-20 sm:py-28 relative overflow-hidden" style="background:#FEFCF3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-14 reveal">
+            <div class="section-badge-gold mb-4"><span class="ping-dot ping-dot-gold"></span>Durabilité & Sérénité</div>
+            <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-900 mb-4" style="font-family:var(--font-title)">Nos contrats de <span class="gradient-text">maintenance</span></h2>
+            <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base">Au vu des dépenses répétées sur les mêmes installations, l'équipe d'experts de PHILCOM Conseils et Suivi a élaboré plusieurs offres de maintenance adaptées afin de maintenir toutes les installations à jour, de limiter les dépenses superflues et surtout d'éviter les coûts imprévus.</p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 reveal">
+            <!-- PRIMARY -->
+            <div class="offer-card">
+                <div class="offer-header">
+                <div class="offer-badge">Économique</div>
+                <h3 class="offer-title">PHILCOM PRIMARY</h3>
+                </div>
+                <div class="offer-feature"><span class="offer-feature-label">Visites du site</span><span class="offer-feature-value">01 visite par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Contrôle technique</span><span class="offer-feature-value">01 contrôle</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rapport</span><span class="offer-feature-value">01 rapport</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Maintenance préventive</span><span class="offer-feature-value">01 par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Temps d'intervention</span><span class="offer-feature-value">48h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rétablissement</span><span class="offer-feature-value">48h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Pièces de rechange</span><span class="offer-feature-value">Aux frais du client</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Support technique</span><span class="offer-feature-value">Standard</span></div>
+                <div class="offer-cta">
+                <a href="https://wa.me/237695994896?text=Bonjour%20PHILCOM%2C%20j%27aimerais%20conna%C3%AEtre%20les%20d%C3%A9tails%20du%20contrat%20PHILCOM%20PRIMARY." target="_blank" rel="noopener" class="btn-wa"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Demander</a>
+                </div>
+            </div>
+            <!-- PLUS (Featured) -->
+            <div class="offer-card featured">
+                <div class="offer-header" style="background:linear-gradient(135deg,var(--blue-dark),var(--blue));color:#fff">
+                <div class="offer-badge" style="background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff">Populaire</div>
+                <h3 class="offer-title" style="color:#fff">PHILCOM PLUS</h3>
+                <div style="font-size:.85rem;color:rgba(255,255,255,.9);margin-top:.5rem">Le plus demandé</div>
+                </div>
+                <div class="offer-feature"><span class="offer-feature-label">Visites du site</span><span class="offer-feature-value">02 visites par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Contrôle technique</span><span class="offer-feature-value">01 contrôle</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rapport</span><span class="offer-feature-value">01 rapport</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Maintenance préventive</span><span class="offer-feature-value">02 par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Temps d'intervention</span><span class="offer-feature-value">24h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rétablissement</span><span class="offer-feature-value">24h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Pièces de rechange</span><span class="offer-feature-value">-10% de remise</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Support technique</span><span class="offer-feature-value">Prioritaire</span></div>
+                <div class="offer-cta">
+                <a href="https://wa.me/237695994896?text=Bonjour%20PHILCOM%2C%20j%27aimerais%20conna%C3%AEtre%20les%20d%C3%A9tails%20du%20contrat%20PHILCOM%20PLUS." target="_blank" rel="noopener" class="btn-wa" style="background:#16A34A"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Demander</a>
+                </div>
+            </div>
+            <!-- PREMIUM -->
+            <div class="offer-card">
+                <div class="offer-header">
+                <div class="offer-badge offer-badge-gold">VIP</div>
+                <h3 class="offer-title">PHILCOM PREMIUM</h3>
+                </div>
+                <div class="offer-feature"><span class="offer-feature-label">Visites du site</span><span class="offer-feature-value">04 visites par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Contrôle technique</span><span class="offer-feature-value">01 contrôle</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rapport</span><span class="offer-feature-value">01 rapport</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Maintenance préventive</span><span class="offer-feature-value">02 par mois</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Temps d'intervention</span><span class="offer-feature-value">3h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Rétablissement</span><span class="offer-feature-value">4h</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Pièces de rechange</span><span class="offer-feature-value">100% pris en charge</span></div>
+                <div class="offer-feature"><span class="offer-feature-label">Support technique</span><span class="offer-feature-value">VIP / Immédiat</span></div>
+                <div class="offer-cta">
+                <a href="https://wa.me/237695994896?text=Bonjour%20PHILCOM%2C%20j%27aimerais%20conna%C3%AEtre%20les%20d%C3%A9tails%20du%20contrat%20PHILCOM%20PREMIUM." target="_blank" rel="noopener" class="btn-wa" style="background:var(--gold);color:#111827"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg> Demander</a>
+                </div>
+            </div>
+            </div>
+
+            <div class="maintenance-benefits reveal">
+            <h3 class="font-bold text-slate-900 text-lg mb-4" style="font-family:var(--font-title)">Pourquoi choisir un contrat de maintenance PHILCOM ?</h3>
+            <ul>
+                <li>Réduction des pannes récurrentes</li>
+                <li>Prévention des coûts imprévus</li>
+                <li>Suivi régulier des installations</li>
+                <li>Intervention rapide en cas d'incident</li>
+                <li>Amélioration de la durée de vie des équipements</li>
+                <li>Accompagnement technique professionnel et continu</li>
+            </ul>
+            <p class="mt-4 text-slate-600 text-sm leading-relaxed"><strong class="text-slate-800">PHILCOM Conseils et Suivi</strong> s'engage à garantir la performance, la sécurité et la continuité de fonctionnement de vos installations grâce à un service de maintenance fiable et adapté à vos besoins.</p>
+            </div>
         </div>
         </section>
 
@@ -424,7 +579,8 @@
             </div>
             <div class="grid lg:grid-cols-2 gap-10">
             <div class="reveal-left">
-                <form id="cform" action="{{ path('contact_submit') }}" method="post" onsubmit="submitContactForm(event)" novalidate class="space-y-4">
+                <!-- FIX: action remplacée par un endpoint générique; adapter selon votre backend -->
+                <form id="cform" action="/api/contact" method="post" onsubmit="submitContactForm(event)" novalidate class="space-y-4">
                 <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;opacity:0" aria-hidden="true"/>
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div><label class="block text-sm font-medium text-slate-600 mb-2">Nom complet *</label><input type="text" name="name" required class="form-input" placeholder="Jean Dupont"/><span class="form-error">Ce champ est obligatoire</span></div>
@@ -459,7 +615,7 @@
         <!-- STICKY CTA -->
         <div id="sticky-cta" class="border-t border-blue-600 px-4 py-3" style="background:#2A4A9E">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p class="w-full text-center text-white text-sm font-medium">Besoin d'une solution technologique ?</p>
+            <p class="w-full text-center text-white text-sm font-medium">Envie de Passer au Niveau Supérieur ?</p>
             <div class="flex gap-2 flex-shrink-0">
             <a href="tel:+237695994896" class="flex items-center gap-2 bg-white/15 border border-white/30 text-white text-xs font-semibold px-4 py-2 rounded-xl hover:bg-white/25 transition-all" style="text-decoration:none">Appeler</a>
             <a href="https://wa.me/237695994896?text=Bonjour%20PHILCOM%2C%20je%20souhaite%20un%20devis." target="_blank" rel="noopener" class="flex items-center gap-2 text-white text-xs font-semibold px-4 py-2 rounded-xl" style="text-decoration:none;background:#16A34A">WhatsApp</a>
@@ -501,6 +657,7 @@
                 <li><a href="#apropos" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">À propos</a></li>
                 <li><a href="#processus" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">Processus</a></li>
                 <li><a href="#partenaires" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">Partenaires</a></li>
+                <li><a href="#maintenance" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">Maintenance</a></li>
                 <li><a href="#faq" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">FAQ</a></li>
                 <li><a href="#contact" class="text-slate-500 text-sm hover:text-blue-700" style="text-decoration:none">Contact</a></li>
                 </ul>
@@ -537,11 +694,106 @@
         <div id="success-page"><div class="success-icon w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-6"><svg width="40" height="40" fill="none" stroke="#16A34A" stroke-width="2.5" viewBox="0 0 24 24"><polyline class="success-check" points="20 6 9 17 4 12"/></svg></div><h2 class="text-2xl font-bold text-slate-900 mb-3" style="font-family:var(--font-title)">Message envoyé !</h2><p class="text-slate-600 max-w-sm mb-8">Merci pour votre message. Notre équipe vous contactera sous 24h ouvrées.</p><button onclick="document.getElementById('success-page').style.display='none';document.body.style.overflow=''" class="btn-primary text-white font-semibold px-8 py-3 rounded-xl">Retour au site</button></div>
 
         <script>
-            /* ═══ DATA ═══ */
-            const WA='https://wa.me/237695994896?text=';
-            const waIcon=()=>`<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>`;
+        /* ═══════════════════════════════════════════════════════════
+           HERO CAROUSEL — VERSION CORRIGÉE & ROBUSTE
+           Logique : setInterval simple + gestion propre des classes
+        ═══════════════════════════════════════════════════════════ */
+        (function initHeroCarousel() {
+            var DURATION = 5500; // ms entre chaque slide
+            var slides   = Array.prototype.slice.call(document.querySelectorAll('.hc-slide'));
+            var dotsWrap = document.getElementById('hc-dots');
+            var progressEl = document.getElementById('hc-progress');
 
-            const DOMAINS={
+            if (!slides.length || !dotsWrap || !progressEl) return;
+
+            var total = slides.length;
+            var current = 0;
+            var timer = null;
+
+            /* --- Créer les dots --- */
+            var dots = slides.map(function(_, i) {
+                var btn = document.createElement('button');
+                btn.className = 'hc-dot' + (i === 0 ? ' active' : '');
+                btn.setAttribute('aria-label', 'Image ' + (i + 1));
+                btn.addEventListener('click', function() { goTo(i); });
+                dotsWrap.appendChild(btn);
+                return btn;
+            });
+
+            /* --- Aller à un slide précis --- */
+            function goTo(n) {
+                // Nettoyer le timer courant
+                if (timer) { clearInterval(timer); timer = null; }
+
+                // Retirer l'état actif du slide/dot courant
+                slides[current].classList.remove('active');
+                dots[current].classList.remove('active');
+
+                // Calculer le nouveau index (modulo sûr)
+                current = ((n % total) + total) % total;
+
+                // Activer le nouveau slide/dot
+                slides[current].classList.add('active');
+                dots[current].classList.add('active');
+
+                // Relancer la barre de progression
+                restartProgress();
+
+                // Relancer l'auto-play
+                timer = setInterval(function() { goTo(current + 1); }, DURATION);
+            }
+
+            /* --- Barre de progression via restart d'animation CSS --- */
+            function restartProgress() {
+                // Forcer le reflow pour relancer l'animation depuis 0
+                progressEl.classList.remove('running');
+                progressEl.style.setProperty('--hc-duration', DURATION + 'ms');
+                // Un simple void reflow suffit
+                void progressEl.offsetWidth;
+                progressEl.classList.add('running');
+            }
+
+            /* --- Swipe tactile --- */
+            var touchStartX = null;
+            var carousel = document.getElementById('hero-carousel');
+            if (carousel) {
+                carousel.addEventListener('touchstart', function(e) {
+                    touchStartX = e.touches[0].clientX;
+                }, { passive: true });
+                carousel.addEventListener('touchend', function(e) {
+                    if (touchStartX === null) return;
+                    var dx = e.changedTouches[0].clientX - touchStartX;
+                    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+                    touchStartX = null;
+                }, { passive: true });
+            }
+
+            /* --- Clavier (flèches gauche/droite) --- */
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft')  goTo(current - 1);
+                if (e.key === 'ArrowRight') goTo(current + 1);
+            });
+
+            /* --- Exposition globale pour boutons externes (optionnel) --- */
+            window.hcPrev = function() { goTo(current - 1); };
+            window.hcNext = function() { goTo(current + 1); };
+
+            /* --- Démarrage --- */
+            restartProgress();
+            timer = setInterval(function() { goTo(current + 1); }, DURATION);
+        })();
+
+
+        /* ═══════════════════════════════════════════════════════════
+           DATA & HELPERS
+        ═══════════════════════════════════════════════════════════ */
+        var WA = 'https://wa.me/237695994896?text=';
+
+        function waIcon() {
+            return '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>';
+        }
+
+        var DOMAINS = {
             reseau:{title:'Réseaux & Internet',sub:'Modems, box wifi, amplificateurs et répéteurs pour une connexion optimale',icon:'📡',color:'#3B5CB8',products:[
                 {n:'Modem Toplink HW52 Pro',d:'Modem wifi universel avec 12h d\'autonomie.',img:'build/images/products/Modem Toplink HW52 Pro.jpeg'},
                 {n:'Flybox Huawei B315',d:'Box wifi 150Mbps avec port téléphonique.',img:'build/images/products/Flybox Huawei B315.jpeg'},
@@ -577,260 +829,259 @@
                 {n:'Serrure Biométrique Tuya',d:'Serrure intelligente par empreinte et carte.',img:'build/images/products/Serrure Biométrique Tuya.jpeg'},
                 {n:'HIKVISION DS-K1T804BMF',d:'Contrôle d\'accès biométrique pour employés.',img:'build/images/products/HIKVISION DS-K1T804BMF.jpeg'},
             ]},
+    
             solaire:{title:'Énergie Solaire',sub:'Panneaux photovoltaïques, onduleurs, batteries et installations clé en main',icon:'☀️',color:'#D97706',products:[
-                {n:'Panneau Monocristallin 400W',d:'Rendement 21.5%, garantie 25 ans produit',img:'build/images/products/Panneau Monocristallin 400W.jpeg'},
-                {n:'Onduleur Hybride Growatt 5kW',d:'MPPT 100A, WiFi, monitoring Shine app',img:'build/images/products/Onduleur Hybride Growatt 5kW.jpeg'},
-                {n:'Batterie LiFePO4 100Ah 48V',d:'5000 cycles, BMS intégré, 10 ans de vie',img:'build/images/products/Batterie LiFePO4 100Ah 48V.jpeg'},
-                {n:'Régulateur MPPT Victron 60A',d:'SmartSolar, Bluetooth, 12/24/48V auto',img:'build/images/products/Régulateur MPPT Victron 60A.jpeg'},
-                {n:'Kit Solaire Résidentiel 3kW',d:'6 panneaux 400W + onduleur + batteries',img:'build/images/products/Kit Solaire Résidentiel 3kW.jpeg'},
-                {n:'Panneau 550W Bifacial',d:'Double face, cadre noir full black',img:'build/images/products/Panneau 550W Bifacial.jpeg'},
-                {n:'Onduleur réseau Solis 8kW',d:'Triphasé, monitoring WiFi, 3 MPPT',img:'build/images/products/Onduleur réseau Solis 8kW.jpeg'},
-                {n:'Batterie AGM 200Ah 12V',d:'Profonde décharge, ventilée, charge rapide',img:'build/images/products/Batterie AGM 200Ah 12V.jpeg'},
-                {n:'Structure fixation toiture',d:'Aluminium anodisé, rails + pinces 4 panneaux',img:'build/images/products/Structure fixation toiture.jpeg'},
-                {n:'Câble solaire DC 6mm² rouge/noir',d:'Résistant UV, double isolation, 100m',img:'build/images/products/Câble solaire DC 6mm² rouge/noir.jpeg'},
-                {n:'Kit Solaire Professionnel 10kW',d:'20 panneaux 500W + onduleur tri + batteries',img:'build/images/products/Kit Solaire Professionnel 10kW.jpeg'},
-                {n:'Onduleur inverseur 3kW pur sinus',d:'12V/220V, pur sinus, protection overload',img:'build/images/products/Onduleur inverseur 3kW pur sinus.jpeg'},
+                {n:'Plaque solaire 550watt',d:'',img:'build/images/products/plaque solaire 550watt.jpeg'},
+                {n:'Plaque solaire 400watts',d:'',img:'build/images/products/paque solaire 400watts.jpeg'},
+                {n:'Pompe à forage avec systeme solaire',d:'',img:'build/images/products/pompe a forage avec systeme solaire.jpeg'},
+                {n:'Onduleur solaire',d:'',img:'build/images/products/onduleur solaire.jpeg'},
+                {n:'Lampadaire solaire',d:'',img:'build/images/products/lampadaire solaire.jpeg'},
+                {n:'Projecteur solaire',d:'',img:'build/images/products/projecteur solaire.jpeg'},
+                {n:'Générateur batterie solaire',d:'',img:'build/images/products/générateur batterie solaire.jpeg'},
             ]},
             service:{title:'Prestations de Service',sub:'Installation, maintenance, formation, audit et supervision à distance',icon:'🔧',color:'#3B5CB8',products:[
-                {n:'Installations de connexions internet satellitaires illimitées',d:'Connexions internet haut débit via satellite sans limitation de bande passante',img:'build/images/products/Installation Internet Satellitaire.jpeg'},
+                {n:'Installations de connexions internet satellitaires illimitées',d:'Connexions internet haut débit via satellite sans limitation de bande passante',img:'build/images/products/Installation Internet Satellitaire.webp'},
                 {n:'Amplification Wifi à Courte, moyenne et longue distance',d:'Solutions d\'amplification pour tous les besoins de couverture',img:'build/images/products/Amplification Wifi Distance.jpeg'},
-                {n:'Conseils et Expertise sur des installations de télécommunication',d:'Audit et recommandations pour optimiser vos infrastructures de télécommunications',img:'build/images/products/Conseils Télécommunication.jpeg'},
-                {n:'Installation de Réseaux Téléphoniques d\'entreprise',d:'Déploiement complet de systèmes téléphoniques professionnels',img:'build/images/products/Installation Réseaux Téléphoniques.jpeg'},
+                {n:'Conseils et Expertise sur des installations de télécommunication',d:'Audit et recommandations pour optimiser vos infrastructures de télécommunications',img:'build/images/products/Conseils Télécommunication.webp'},
+                {n:'Installation de Réseaux Téléphoniques d\'entreprise',d:'Déploiement complet de systèmes téléphoniques professionnels',img:'build/images/products/Installation Réseaux Téléphoniques.webp'},
                 {n:'Installation CALL CENTER ET STANDARD d\'APPEL',d:'Configuration de messagerie personnalisée et gestion d\'appels professionnels',img:'build/images/products/Installation Call Center Standard.jpeg'},
-                {n:'Installation des Systèmes de Vidéosurveillance, Alarme, Détection',d:'Mise en place complète de systèmes de sécurité intégrés',img:'build/images/products/Installation Vidéosurveillance Alarme.jpeg'},
-                {n:'Installation des Systèmes de Sécurité Biométrique',d:'Déploiement de solutions biométriques pour contrôle d\'accès professionnel',img:'build/images/products/Installation Sécurité Biométrique.jpeg'},
-                {n:'Installation des Systèmes électriques à Énergie Solaire',d:'Installation de systèmes solaires photovoltaïques complets et durables',img:'build/images/products/Installation Énergie Solaire.jpeg'},
+                {n:'Installation des Systèmes de Vidéosurveillance, Alarme, Détection',d:'Mise en place complète de systèmes de sécurité intégrés',img:'build/images/products/Installation Vidéosurveillance Alarme.webp'},
+                {n:'Installation des Systèmes de Sécurité Biométrique',d:'Déploiement de solutions biométriques pour contrôle d\'accès professionnel',img:'build/images/products/Installation Sécurité Biométrique.webp'},
+                {n:'Installation des Systèmes électriques à Énergie Solaire',d:'Installation de systèmes solaires photovoltaïques complets et durables',img:'build/images/products/Installation Énergie Solaire.webp'},
             ]},
-            };
+        };
 
-            /* ═══ BUILD DOMAIN SECTIONS ON HOMEPAGE ═══ */
-            function productCard(p,preview=true){
-            const msg=encodeURIComponent('Bonjour PHILCOM, je suis intéressé(e) par : '+p.n);
-            return`<div class="product-card">
-                <img src="${p.img}" alt="${p.n}" class="product-img" loading="lazy"/>
-                <div class="p-3">
-                <div class="font-semibold text-slate-900 text-sm mb-1 leading-tight">${p.n}</div>
-                <p class="text-slate-500 text-xs mb-3 leading-snug">${p.d}</p>
-                <a href="${WA}${msg}" target="_blank" rel="noopener" class="btn-wa w-full justify-center">${waIcon()} En savoir plus</a>
-                </div>
-            </div>`;
-            }
+        /* ═══ BUILD DOMAIN SECTIONS ═══ */
+        function productCard(p) {
+            var msg = encodeURIComponent('Bonjour PHILCOM, je suis intéressé(e) par : ' + p.n);
+            return '<div class="product-card">'
+                + '<img src="' + p.img + '" alt="' + p.n + '" class="product-img" loading="lazy"/>'
+                + '<div class="p-3">'
+                + '<div class="font-semibold text-slate-900 text-sm mb-1 leading-tight">' + p.n + '</div>'
+                + '<p class="text-slate-500 text-xs mb-3 leading-snug">' + p.d + '</p>'
+                + '<a href="' + WA + msg + '" target="_blank" rel="noopener" class="btn-wa w-full justify-center">' + waIcon() + ' En savoir plus</a>'
+                + '</div></div>';
+        }
 
-            function buildDomainSections(){
-            const keys=['reseau','telephonie','cctv','biometrie','solaire','service'];
-            const icons={reseau:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#3B5CB8" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>',telephonie:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#0D9488" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45A2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',cctv:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#64748B" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',biometrie:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#7C3AED" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 17h2a8 8 0 0 0 8-8"/><path d="M10 22a14 14 0 0 0 9.5-5.5"/><circle cx="12" cy="12" r="1"/></svg>',solaire:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#D97706" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',service:'<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#3B5CB8" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>'};
-            let html='';
-            keys.forEach(k=>{
-                const d=DOMAINS[k];
-                const preview=d.products.slice(0,6).map(p=>productCard(p)).join('');
-                // Determine grid columns based on product count for homepage preview
-                const count=Math.min(d.products.length,6);
-                const gridCols=count<=2?'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2':count<=3?'grid-cols-2 sm:grid-cols-3 lg:grid-cols-3':'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6';
-                html+=`<div class="mb-20 domain-section"><div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 reveal"><div class="flex items-center gap-4"><div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08)">${icons[k]}</div><div><h3 class="text-2xl font-bold text-slate-900" style="font-family:var(--font-title)">${d.title}</h3><p class="text-slate-500 text-sm">${d.sub}</p></div></div><button onclick="openDomain('${k}')" class="btn-voir-plus flex-shrink-0">Voir tous les produits <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button></div><div class="grid ${gridCols} gap-4 reveal">${preview}</div></div>`;
+        var DOMAIN_ICONS = {
+            reseau: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#3B5CB8" stroke-width="1.8" viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>',
+            telephonie: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#0D9488" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.45A2 2 0 0 1 3.59 1.27h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8a16 16 0 0 0 6 6l.82-.82a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+            cctv: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#64748B" stroke-width="1.8" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>',
+            biometrie: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#7C3AED" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 17h2a8 8 0 0 0 8-8"/><path d="M10 22a14 14 0 0 0 9.5-5.5"/><circle cx="12" cy="12" r="1"/></svg>',
+            solaire: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#D97706" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+            service: '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="#3B5CB8" stroke-width="1.8" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
+        };
+
+        function buildDomainSections() {
+            var keys = ['reseau','telephonie','cctv','biometrie','solaire','service'];
+            var html = '';
+            keys.forEach(function(k) {
+                var d = DOMAINS[k];
+                var preview = d.products.slice(0, 6).map(productCard).join('');
+                var count = Math.min(d.products.length, 6);
+                var gridCols = count <= 2
+                    ? 'grid-cols-2 sm:grid-cols-2 lg:grid-cols-2'
+                    : count <= 3
+                        ? 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-3'
+                        : 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6';
+                html += '<div class="mb-20 domain-section">'
+                    + '<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 reveal">'
+                    + '<div class="flex items-center gap-4">'
+                    + '<div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background:rgba(0,0,0,.05);border:1px solid rgba(0,0,0,.08)">' + DOMAIN_ICONS[k] + '</div>'
+                    + '<div><h3 class="text-2xl font-bold text-slate-900" style="font-family:var(--font-title)">' + d.title + '</h3><p class="text-slate-500 text-sm">' + d.sub + '</p></div>'
+                    + '</div>'
+                    + '<button onclick="openDomain(\'' + k + '\')" class="btn-voir-plus flex-shrink-0">Voir tous les produits <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>'
+                    + '</div>'
+                    + '<div class="grid ' + gridCols + ' gap-4 reveal">' + preview + '</div>'
+                    + '</div>';
             });
-            document.getElementById('domains-container').innerHTML=html;
+            document.getElementById('domains-container').innerHTML = html;
             window.dispatchEvent(new Event('scroll'));
-            }
-            buildDomainSections();
+        }
+        buildDomainSections();
 
-            /* ═══ DOMAIN OVERLAY ═══ */
-            function openDomain(k){
-            const d=DOMAINS[k];if(!d)return;
-            document.getElementById('domain-title').textContent=d.title;
-            const cards=d.products.map(p=>productCard(p,false)).join('');
-            document.getElementById('domain-content').innerHTML=`
-                <div class="text-center mb-10"><p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto">${d.sub}</p></div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">${cards}</div>
-                <div class="text-center mt-12 py-8 glass rounded-2xl border-glow">
-                <p class="text-slate-500 mb-4 text-sm">Vous ne trouvez pas ce que vous cherchez ?</p>
-                <a href="${WA}${encodeURIComponent("Bonjour PHILCOM, j'ai besoin d'un renseignement sur vos produits.")}" target="_blank" rel="noopener" class="btn-wa inline-flex">${waIcon()} Nous contacter sur WhatsApp</a>
-                </div>`;
-            const ov=document.getElementById('domain-overlay');
-            ov.classList.add('open');ov.scrollTop=0;document.body.style.overflow='hidden';
-            }
-            function closeDomain(){
+        /* ═══ DOMAIN OVERLAY ═══ */
+        function openDomain(k) {
+            var d = DOMAINS[k];
+            if (!d) return;
+            document.getElementById('domain-title').textContent = d.title;
+            var cards = d.products.map(productCard).join('');
+            var waMsg = encodeURIComponent("Bonjour PHILCOM, j'ai besoin d'un renseignement sur vos produits.");
+            document.getElementById('domain-content').innerHTML =
+                '<div class="text-center mb-10"><p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto">' + d.sub + '</p></div>'
+                + '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">' + cards + '</div>'
+                + '<div class="text-center mt-12 py-8 glass rounded-2xl border-glow">'
+                + '<p class="text-slate-500 mb-4 text-sm">Vous ne trouvez pas ce que vous cherchez ?</p>'
+                + '<a href="' + WA + waMsg + '" target="_blank" rel="noopener" class="btn-wa inline-flex">' + waIcon() + ' Nous contacter sur WhatsApp</a>'
+                + '</div>';
+            var ov = document.getElementById('domain-overlay');
+            ov.classList.add('open');
+            ov.scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDomain() {
             document.getElementById('domain-overlay').classList.remove('open');
-            document.body.style.overflow='';
+            document.body.style.overflow = '';
+        }
+
+        /* ═══ MENU MOBILE ═══ */
+        function toggleMenu() {
+            var m = document.getElementById('mobile-menu');
+            var open = m.classList.toggle('open');
+            document.getElementById('mb1').style.transform = open ? 'translateY(8px) rotate(45deg)' : '';
+            document.getElementById('mb2').style.opacity  = open ? '0' : '1';
+            document.getElementById('mb3').style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
+        }
+        function closeMenu() {
+            document.getElementById('mobile-menu').classList.remove('open');
+            document.getElementById('mb1').style.transform = '';
+            document.getElementById('mb2').style.opacity  = '1';
+            document.getElementById('mb3').style.transform = '';
+        }
+
+        /* ═══ SCROLL EVENTS ═══ */
+        window.addEventListener('scroll', function() {
+            var s = window.scrollY;
+            var tot = document.body.scrollHeight - window.innerHeight;
+            document.getElementById('progress-bar').style.width = (tot > 0 ? (s / tot * 100) : 0) + '%';
+
+            var callBtn = document.getElementById('nav-call-btn');
+            if (callBtn) callBtn.style.borderColor = s > 50 ? 'rgba(100,116,139,.3)' : 'rgba(59,92,184,.3)';
+
+            /* Sticky CTA */
+            var cta = document.getElementById('sticky-cta');
+            var cEl = document.getElementById('contact');
+            if (s > 400) {
+                var r = cEl ? cEl.getBoundingClientRect() : null;
+                if (r && r.top <= window.innerHeight && r.bottom >= 0) {
+                    cta.classList.remove('show');
+                    cta.classList.add('hide-near-contact');
+                } else {
+                    cta.classList.add('show');
+                    cta.classList.remove('hide-near-contact');
+                }
+            } else {
+                cta.classList.remove('show');
             }
 
-            /* ═══ MENU ═══ */
-            function toggleMenu(){
-            const m=document.getElementById('mobile-menu'),open=m.classList.toggle('open');
-            document.getElementById('mb1').style.transform=open?'translateY(8px) rotate(45deg)':'';
-            document.getElementById('mb2').style.opacity=open?'0':'1';
-            document.getElementById('mb3').style.transform=open?'translateY(-8px) rotate(-45deg)':'';
-            }
-            function closeMenu(){document.getElementById('mobile-menu').classList.remove('open');['mb1','mb2','mb3'].forEach(id=>{const el=document.getElementById(id);el.style.transform='';document.getElementById('mb2').style.opacity='1';});}
-
-            /* ═══ SCROLL ═══ */
-            window.addEventListener('scroll',()=>{
-            const s=window.scrollY,tot=document.body.scrollHeight-window.innerHeight;
-            document.getElementById('progress-bar').style.width=(s/tot*100)+'%';
-            document.getElementById('navbar').classList.toggle('scrolled',s>50);
-            const callBtn=document.getElementById('nav-call-btn');
-            if(callBtn)callBtn.style.borderColor=s>50?'rgba(100,116,139,.3)':'rgba(255,255,255,.4)';
-            const cta=document.getElementById('sticky-cta');
-            const cEl=document.getElementById('contact');
-            if(s>400){
-                const r=cEl?cEl.getBoundingClientRect():null;
-                if(r&&r.top<=window.innerHeight&&r.bottom>=0){cta.classList.remove('show');cta.classList.add('hide-near-contact');}
-                else{cta.classList.add('show');cta.classList.remove('hide-near-contact');}
-            }else{cta.classList.remove('show');}
-            document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el=>{
-                if(el.getBoundingClientRect().top<window.innerHeight*.9)el.classList.add('visible');
-            });
-            const secs=['hero','domaines','apropos','realisations','processus','temoignages','faq','contact'];
-            let cur='';
-            secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<=120)cur=id;});
-            document.querySelectorAll('.nav-link[data-section]').forEach(l=>l.classList.toggle('active',l.dataset.section===cur));
-            },{passive:true});
-
-            /* ═══ COUNTERS ═══ */
-            let counted=false;
-            function animCount(id,target,suf,ms){
-            const el=document.getElementById(id);if(!el)return;
-            let st=null;
-            (function tick(ts){if(!st)st=ts;const p=Math.min((ts-st)/ms,1);el.textContent=Math.floor(p*target)+(p===1?suf:'');if(p<1)requestAnimationFrame(tick);})(0);
-            requestAnimationFrame(ts=>{let st=ts;(function tick(ts){const p=Math.min((ts-st)/ms,1);el.textContent=Math.floor(p*target)+(p===1?suf:'');if(p<1)requestAnimationFrame(tick);})(ts);});
-            }
-            new IntersectionObserver(([e])=>{if(e.isIntersecting&&!counted){counted=true;animCount('c1',21,'+',1800);animCount('c2',500,'+',2200);animCount('c3',800,'+',2000);}},{threshold:.5}).observe(document.getElementById('c1')||document.body);
-
-            /* ═══ FAQ ═══ */
-            function toggleFaq(btn){
-            const ans=btn.nextElementSibling,chev=btn.querySelector('.faq-chev'),open=ans.classList.contains('open');
-            document.querySelectorAll('.faq-ans.open').forEach(a=>{a.classList.remove('open');a.previousElementSibling.querySelector('.faq-chev')?.classList.remove('rot');});
-            if(!open){ans.classList.add('open');chev?.classList.add('rot');}
-            }
-
-            /* ═══ GALLERY FILTER ═══ */
-            document.querySelectorAll('.filter-btn').forEach(btn=>{
-            btn.addEventListener('click',()=>{
-                document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('bg-blue-700','text-white');b.classList.add('text-slate-600','border','border-blue-200');});
-                btn.classList.add('bg-blue-700','text-white');btn.classList.remove('text-slate-600','border','border-blue-200');
-                const f=btn.dataset.filter;
-                document.querySelectorAll('.gallery-item').forEach(item=>{
-                const show=f==='all'||item.dataset.cat===f;
-                if(show){item.style.display='';requestAnimationFrame(()=>{item.style.opacity='1';item.style.transform='scale(1)';});}
-                else{item.style.opacity='0';item.style.transform='scale(.93)';setTimeout(()=>{if(f!=='all')item.style.display='none';},280);}
-                });
-            });
+            /* Reveal animations */
+            document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(function(el) {
+                if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add('visible');
             });
 
-            /* ═══ SLIDER ═══ */
-            let slide=0,totalSlides=2;
-            function slideTo(i){
-            slide=((i%totalSlides)+totalSlides)%totalSlides;
-            document.getElementById('t-track').style.transform=`translateX(-${slide*100}%)`;
-            [0,1].forEach(j=>{const d=document.getElementById('d'+j);if(j===slide){d.className='w-8 h-2 rounded-full bg-blue-500 transition-all';}else{d.className='w-2 h-2 rounded-full bg-slate-300 transition-all';}});
+            /* Active nav link */
+            var secs = ['hero','domaines','apropos','processus','partenaires','maintenance','faq','contact'];
+            var cur = '';
+            secs.forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el && el.getBoundingClientRect().top <= 120) cur = id;
+            });
+            document.querySelectorAll('.nav-link[data-section]').forEach(function(l) {
+                l.classList.toggle('active', l.dataset.section === cur);
+            });
+        }, { passive: true });
+
+        /* ═══ COUNTERS — FIX: double-RAF supprimé ═══ */
+        var counted = false;
+
+        function animCount(id, target, suffix, duration) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            var startTime = null;
+            function tick(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / duration, 1);
+                el.textContent = Math.floor(progress * target) + (progress >= 1 ? suffix : '');
+                if (progress < 1) requestAnimationFrame(tick);
             }
-            setInterval(()=>slideTo(slide+1),6000);
+            requestAnimationFrame(tick);
+        }
 
-            /* ═══ LIGHTBOX ═══ */
-            const LB=[
-            {t:'Installation WiFi Entreprise',l:'Akwa, Douala',img:'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&q=85'},
-            {t:'CCTV 16 caméras HD',l:'Bonapriso, Douala',img:'https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=900&q=85'},
-            {t:"Contrôle d'accès biométrique",l:'Centre Yaoundé',img:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=900&q=85'},
-            {t:'Installation solaire 5kW',l:'Logbessou, Douala',img:'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=900&q=85'},
-            {t:'Rack réseau datacenter',l:'Zone Industrielle, Douala',img:'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=900&q=85'},
-            {t:'Surveillance périmétrique',l:'Bastos, Yaoundé',img:'https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?w=900&q=85'},
-            ];
-            function openLB(i){const d=LB[i];document.getElementById('lb-img').src=d.img;document.getElementById('lb-img').alt=d.t;document.getElementById('lb-t').textContent=d.t;document.getElementById('lb-l').textContent='📍 '+d.l;document.getElementById('lb-wrap').style.display='flex';document.body.style.overflow='hidden';}
-            function closeLB(){document.getElementById('lb-wrap').style.display='none';document.body.style.overflow='';}
-            document.getElementById('lb-wrap').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLB();});
+        /* Observer sur le premier compteur (existence garantie dans le HTML) */
+        var counterSection = document.getElementById('c1');
+        if (counterSection) {
+            new IntersectionObserver(function(entries) {
+                if (entries[0].isIntersecting && !counted) {
+                    counted = true;
+                    animCount('c1', 21,  '+', 1800);
+                    animCount('c2', 500, '+', 2200);
+                    animCount('c3', 800, '+', 2000);
+                }
+            }, { threshold: 0.5 }).observe(counterSection);
+        }
 
-            /* ═══ FORM ═══ */
-            async function submitContactForm(e){
-            e.preventDefault();let ok=true;
-            const form=e.target;
-            form.querySelectorAll('[required]').forEach(f=>{
+        /* ═══ FAQ ═══ */
+        function toggleFaq(btn) {
+            var ans  = btn.nextElementSibling;
+            var chev = btn.querySelector('.faq-chev');
+            var isOpen = ans.classList.contains('open');
+            document.querySelectorAll('.faq-ans.open').forEach(function(a) {
+                a.classList.remove('open');
+                var c = a.previousElementSibling && a.previousElementSibling.querySelector('.faq-chev');
+                if (c) c.classList.remove('rot');
+            });
+            if (!isOpen) {
+                ans.classList.add('open');
+                if (chev) chev.classList.add('rot');
+            }
+        }
+
+        /* ═══ FORM — FIX: plus de dépendance à {{ path() }} ═══ */
+        async function submitContactForm(e) {
+            e.preventDefault();
+            var ok = true;
+            var form = e.target;
+
+            form.querySelectorAll('[required]').forEach(function(f) {
                 f.classList.remove('error');
-                const empty=!f.value.trim(),badEmail=f.type==='email'&&f.value&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value);
-                if(empty||badEmail){f.classList.add('error');ok=false;}
+                var empty   = !f.value.trim();
+                var badEmail = f.type === 'email' && f.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value);
+                if (empty || badEmail) { f.classList.add('error'); ok = false; }
             });
-            if(!ok)return;
-            const btn=document.getElementById('submit-btn'),orig=btn.innerHTML;
-            btn.innerHTML='<svg class="spin-anim" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Envoi...';
-            btn.disabled=true;
-            try{
-                const payload=Object.fromEntries(new FormData(form).entries());
-                const res=await fetch(form.action,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(payload)});
-                const body=await res.json().catch(()=>({message:'Une erreur est survenue.'}));
-                if(!res.ok)throw new Error(body.message||'Une erreur est survenue.');
+            if (!ok) return;
+
+            var btn  = document.getElementById('submit-btn');
+            var orig = btn.innerHTML;
+            btn.innerHTML = '<svg class="spin-anim" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg> Envoi...';
+            btn.disabled = true;
+
+            try {
+                var payload = Object.fromEntries(new FormData(form).entries());
+                var res = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                var body = await res.json().catch(function() { return { message: 'Une erreur est survenue.' }; });
+                if (!res.ok) throw new Error(body.message || 'Une erreur est survenue.');
                 form.reset();
-                document.getElementById('svc-select').style.color='#94a3b8';
-                const sp=document.getElementById('success-page');sp.style.display='flex';document.body.style.overflow='hidden';
-            }catch(err){
-                alert(err.message||'Impossible d envoyer le message pour le moment.');
-            }finally{
-                btn.innerHTML=orig;btn.disabled=false;
+                document.getElementById('svc-select').style.color = '#94a3b8';
+                var sp = document.getElementById('success-page');
+                sp.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } catch(err) {
+                alert(err.message || 'Impossible d\'envoyer le message pour le moment.');
+            } finally {
+                btn.innerHTML = orig;
+                btn.disabled  = false;
             }
-            }
+        }
 
-            document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();closeMenu();t.scrollIntoView({behavior:'smooth',block:'start'});}});});
-
-            /* ═══ ESC KEY ═══ */
-            document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeLB();closeDomain();}});
-
-            /* ═══ HERO CAROUSEL JS ═══ */
-            (function(){
-            const slides=document.querySelectorAll('.hc-slide');
-            const dotsEl=document.getElementById('hc-dots');
-            const progressEl=document.getElementById('hc-progress');
-            const total=slides.length;
-            let cur=0,timer=null,progTimer=null,progStart=null,DURATION=5500;
-
-            // build dots
-            slides.forEach((_,i)=>{
-                const b=document.createElement('button');
-                b.className='hc-dot'+(i===0?' active':'');
-                b.setAttribute('aria-label','Slide '+(i+1));
-                b.addEventListener('click',()=>goTo(i));
-                dotsEl.appendChild(b);
+        /* ═══ SMOOTH SCROLL ═══ */
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                var t = document.querySelector(a.getAttribute('href'));
+                if (t) { e.preventDefault(); closeMenu(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
+        });
 
-            function setSlide(n){
-                slides[cur].classList.remove('active');
-                dotsEl.children[cur].classList.remove('active');
-                cur=((n%total)+total)%total;
-                slides[cur].classList.add('active');
-                dotsEl.children[cur].classList.add('active');
-                startProgress();
-            }
-            function goTo(n){clearTimeout(timer);clearInterval(progTimer);setSlide(n);scheduleNext();}
+        /* ═══ ESC KEY ═══ */
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeDomain();
+        });
 
-            function startProgress(){
-                clearInterval(progTimer);
-                progStart=performance.now();
-                progressEl.style.transition='none';
-                progressEl.style.width='0%';
-                requestAnimationFrame(()=>{
-                requestAnimationFrame(()=>{
-                    progressEl.style.transition=`width ${DURATION}ms linear`;
-                    progressEl.style.width='100%';
-                });
-                });
-                progTimer=setInterval(()=>{clearInterval(progTimer);},DURATION);
-            }
-            function scheduleNext(){timer=setTimeout(()=>{setSlide(cur+1);scheduleNext();},DURATION);}
-
-            window.hcPrev=()=>goTo(cur-1);
-            window.hcNext=()=>goTo(cur+1);
-
-            // touch swipe
-            let tsx=null;
-            const car=document.getElementById('hero-carousel');
-            car.addEventListener('touchstart',e=>{tsx=e.touches[0].clientX;},{passive:true});
-            car.addEventListener('touchend',e=>{if(tsx===null)return;const dx=e.changedTouches[0].clientX-tsx;if(Math.abs(dx)>50)goTo(dx<0?cur+1:cur-1);tsx=null;},{passive:true});
-
-            // keyboard
-            document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')goTo(cur-1);if(e.key==='ArrowRight')goTo(cur+1);});
-
-            startProgress();scheduleNext();
-            })();
-
-            /* Initial reveal check */
-            window.dispatchEvent(new Event('scroll'));
+        /* Déclencher reveal au chargement */
+        window.dispatchEvent(new Event('scroll'));
         </script>
-
     </body>
 </html>
